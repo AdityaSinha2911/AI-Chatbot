@@ -4,7 +4,9 @@ import json
 from openai import OpenAI
 
 
-API_KEY = "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"
+
+# i have taken open router api key
+API_KEY = "your api key"
 
 # OpenRouter API endpoint
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
