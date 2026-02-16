@@ -11,7 +11,12 @@ API_KEY = "your api key"
 # OpenRouter API endpoint
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
+SYSTEM_PROMPT = "You are a helpful and intelligent AI assistant."
 
+# saves conversation for further chats
+conversation = [
+    {"role": "system", "content": SYSTEM_PROMPT}
+]
 # AI RESPONSE FUNCTION
 
 def get_ai_response(user_message):
@@ -32,7 +37,12 @@ def get_ai_response(user_message):
         response = requests.post(API_URL, headers=headers, json=data)
         result = response.json()
 
-        return result["choices"][0]["message"]["content"]
+        reply = result["choices"][0]["message"]["content"]
+
+        # will use the memory stored, for better replies
+        conversation.append({"role": "assistant", "content": reply})
+
+        return reply
 
     except Exception as e:
         return "Error: " + str(e)
