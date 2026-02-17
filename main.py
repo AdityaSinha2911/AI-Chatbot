@@ -1,6 +1,7 @@
 import tkinter as tk
 import requests
 import json
+import threading
 from openai import OpenAI
 
 
@@ -47,6 +48,30 @@ def get_ai_response(user_message):
     except Exception as e:
         return "Error: " + str(e)
 
+# thread function added
+
+def process_message(user_text):
+
+    try:
+        reply = get_ai_response(user_text)
+
+        # Update GUI safely using after()
+        root.after(0, display_reply, reply)
+
+    except Exception as e:
+        root.after(0, display_reply, "Error: " + str(e))
+
+
+# display function
+
+def display_reply(reply):
+
+    # Remove "Thinking..." line
+    chat_area.delete("end-2l", "end-1l")
+
+    chat_area.insert(tk.END, "Bot: " + reply + "\n\n")
+    chat_area.see(tk.END)
+
 
 # SEND MESSAGE FUNCTION
 
@@ -66,19 +91,20 @@ def send_message(event=None):
     # Show thinking message
     chat_area.insert(tk.END, "Bot: Thinking...\n")
     chat_area.see(tk.END)
-    # update at the end
-    root.update()
+    
+    # Start new thread for API call
+    thread = threading.Thread(target=process_message, args=(user_text,))
+    thread.start()
 
-    # Get AI reply
-    reply = get_ai_response(user_text)
+    
+# CLEAR CHAT FUNCTION
+def clear_chat():
+    global conversation
+    chat_area.delete(1.0, tk.END)
 
-    # Remove thinking text
-    chat_area.delete("end-2l", "end-1l")
-
-    # Show real reply
-    chat_area.insert(tk.END, "Bot: " + reply + "\n\n")
-    chat_area.see(tk.END)
-
+    conversation = [
+        {"role": "system", "content": SYSTEM_PROMPT}
+    ]
 
 
 # GUI SETUP
