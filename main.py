@@ -18,9 +18,13 @@ SYSTEM_PROMPT = "You are a helpful and intelligent AI assistant."
 conversation = [
     {"role": "system", "content": SYSTEM_PROMPT}
 ]
+
+
 # AI RESPONSE FUNCTION
 
 def get_ai_response(user_message):
+
+    conversation.append({"role": "user", "content": user_message})
 
     headers = {
         "Authorization": f"Bearer {API_KEY}",
@@ -96,7 +100,7 @@ def send_message(event=None):
     thread = threading.Thread(target=process_message, args=(user_text,))
     thread.start()
 
-    
+
 # CLEAR CHAT FUNCTION
 def clear_chat():
     global conversation
