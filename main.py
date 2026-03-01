@@ -28,24 +28,40 @@ def get_ai_response(user_message):
 
     headers = {
         "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "HTTP-Referer": "http://localhost",
+        "X-Title": "Tkinter Chatbot"
     }
 
     data = {
-        "model": "mistralai/mistral-7b-instruct",  
+        # model changed, openrouter/auto will choose the free tier model automatically.
+        "model": "openrouter/auto",  
         "messages": [
-            {"role": "user", "content": user_message}
-        ]
+            {"role": "user", "content": user_message}]
     }
 
     try:
-        response = requests.post(API_URL, headers=headers, json=data)
+        response = requests.post(API_URL, headers=headers, json=data, timeout=30)
+
+        # error handling part improved.
+        if response.status_code != 200:
+            return f"API Error {response.status_code}:\n{response.text}"
+
         result = response.json()
 
-        reply = result["choices"][0]["message"]["content"]
+        if "choices" not in result:
+            return "Unexpected API response:\n" + str(result)
 
-        # will use the memory stored, for better replies
-        conversation.append({"role": "assistant", "content": reply})
+        message = result["choices"][0]["message"]
+
+        reply = message.get("content")
+       
+
+        conversation.append({
+            "role": "assistant",
+            "content": reply,
+        })
+
 
         return reply
 
@@ -97,7 +113,8 @@ def send_message(event=None):
     chat_area.see(tk.END)
     
     # Start new thread for API call
-    thread = threading.Thread(target=process_message, args=(user_text,))
+    #threads are made safer
+    thread = threading.Thread(target=process_message, args=(user_text,), daemon=True)
     thread.start()
 
 
@@ -150,3 +167,6 @@ entry_box.bind("<Return>", send_message)
 
 
 root.mainloop()
+
+
+
