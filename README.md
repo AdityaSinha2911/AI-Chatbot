@@ -1,54 +1,59 @@
-# AI GUI Chatbot (Threaded Desktop Application)
+### AI GUI Chatbot
 
-A desktop-based AI chatbot built using Python and Tkinter.  
-The application connects to an AI API to generate real-time responses within a graphical interface.  
-This version includes conversation memory and threaded API handling for a smooth user experience.
+A simple desktop AI chatbot built using Python and Tkinter.
+It connects to an AI API to generate real-time responses inside a graphical chat window.
 
-## Features
+## 🚀 Features
 
-- Graphical chat interface using Tkinter  
-- Real-time AI responses via API  
-- Conversation memory (context-aware replies)  
-- Threaded API calls (no UI freezing)  
-- Enter key and button support  
-- Scrollable chat window  
-- Configurable system prompt for personalization  
+Desktop GUI built with Tkinter
 
-## Tech Stack
+Real-time AI responses
 
-- Python  
-- Tkinter  
-- Requests (HTTP communication)  
-- Threading (concurrency handling)  
-- OpenRouter / OpenAI-compatible API  
+Conversation memory (context-aware replies)
 
-## Installation
+Threaded API calls (no UI freezing)
 
-1. Clone the repository:
+Enter key + Send button support
 
-   git clone https://github.com/your-username/your-repo-name.git  
-   cd your-repo-name  
+Scrollable chat window
 
-2. Install dependencies:
+## 🛠 Tech Stack
 
-   pip install requests  
+Python
 
-3. Add your API key inside `chatbot.py`:
+Tkinter
 
-   API_KEY = "YOUR_API_KEY_HERE"
+Requests
 
-4. Run the application:
+Threading
 
-   python chatbot.py  
+OpenRouter / OpenAI-compatible API
 
-## Configuration
+## ⚙️ Installation
+#  Clone Repository
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+# Install Dependency
+ pip install requests
+# Add Your API Key
 
-You can modify the system prompt in the code to control the chatbot’s personality:
+# Open chatbot.py and set:
 
-   SYSTEM_PROMPT = "You are a helpful and intelligent AI assistant."
+API_KEY = "YOUR_API_KEY_HERE"
+# Run Application
+python chatbot.py
 
-## Overview
+## How It Works
 
-The application sends user input to an AI model using a REST API and displays the generated response inside a desktop chat window.  
-Conversation history is maintained to provide context-aware responses, and threading is used to prevent the GUI from freezing during API requests.  
-The project demonstrates GUI development, event-driven programming, API integration, and basic concurrency handling in Python.
+User enters a message
+
+Message is sent to AI API
+
+Response is generated and displayed
+
+Conversation history is stored for context
+
+
+Threading keeps the interface responsive
+
+ security.
